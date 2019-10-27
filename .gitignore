@@ -1,0 +1,24 @@
+.idea/
+
+# temp folder #
+target/
+bin/
+.settings/
+.metadata/
+classes/
+lib/
+
+.classpath
+.factorypath
+.project
+
+# Compiled source #
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+*.pyc
+*.iml
+.DS_store
