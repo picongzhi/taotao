@@ -37,6 +37,12 @@
                     <port>8080</port>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <version>1.3.7</version>
+            </plugin>
         </plugins>
     </build>
 </project>
