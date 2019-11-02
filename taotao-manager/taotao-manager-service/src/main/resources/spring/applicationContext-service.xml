@@ -23,4 +23,7 @@
     <dubbo:service interface="com.pcz.taotao.service.ItemService"
                    ref="itemServiceImpl"
                    timeout="3000"/>
+    <dubbo:service interface="com.pcz.taotao.service.ItemCatService"
+                   ref="itemCatServiceImpl"
+                   timeout="3000"/>
 </beans>

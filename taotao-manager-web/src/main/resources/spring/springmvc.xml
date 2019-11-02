@@ -28,4 +28,5 @@
     <dubbo:application name="taotao-manager-web"/>
     <dubbo:registry protocol="zookeeper" address="127.0.0.1:2181"/>
     <dubbo:reference id="itemService" interface="com.pcz.taotao.service.ItemService"/>
+    <dubbo:reference id="itemCatService" interface="com.pcz.taotao.service.ItemCatService"/>
 </beans>
