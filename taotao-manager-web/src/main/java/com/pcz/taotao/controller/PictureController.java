@@ -1,5 +1,6 @@
 package com.pcz.taotao.controller;
 
+import com.pcz.taotao.common.utils.JsonUtils;
 import com.pcz.taotao.utils.FastDFSClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -20,7 +21,7 @@ public class PictureController {
 
     @RequestMapping("/pic/upload")
     @ResponseBody
-    public Map<String, Object> pictureUpload(MultipartFile uploadFile) {
+    public String pictureUpload(MultipartFile uploadFile) {
         String originFilename = uploadFile.getOriginalFilename();
         String extName = originFilename.substring(originFilename.lastIndexOf(".") + 1);
         Map<String, Object> result = new HashMap<>();
@@ -36,6 +37,6 @@ public class PictureController {
             result.put("message", "图片上传失败");
         }
 
-        return result;
+        return JsonUtils.objectToJson(result);
     }
 }
