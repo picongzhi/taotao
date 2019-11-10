@@ -22,7 +22,7 @@
         </dependency>
         <dependency>
             <groupId>com.pcz</groupId>
-            <artifactId>taotao-content</artifactId>
+            <artifactId>taotao-content-interface</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
