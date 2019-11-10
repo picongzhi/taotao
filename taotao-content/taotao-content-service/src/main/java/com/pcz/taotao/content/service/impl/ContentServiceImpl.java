@@ -65,6 +65,9 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public List<TbContent> getContentsByCategoryId(long categoryId) {
-        return null;
+        TbContentExample tbContentExample = new TbContentExample();
+        tbContentExample.createCriteria().andCategoryIdEqualTo(categoryId);
+
+        return tbContentMapper.selectByExample(tbContentExample);
     }
 }
