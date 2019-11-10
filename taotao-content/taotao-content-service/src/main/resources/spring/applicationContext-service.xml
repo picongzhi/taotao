@@ -23,4 +23,7 @@
     <dubbo:service interface="com.pcz.taotao.content.service.ContentCategoryService"
                    ref="contentCategoryServiceImpl"
                    timeout="3000"/>
+    <dubbo:service interface="com.pcz.taotao.content.service.ContentService"
+                   ref="contentServiceImpl"
+                   timeout="3000"/>
 </beans>
