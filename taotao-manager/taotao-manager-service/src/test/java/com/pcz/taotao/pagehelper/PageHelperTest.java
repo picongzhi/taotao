@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:spring/applicationContext-*.xml"})
+@ContextConfiguration(locations = {"classpath*:spring/applicationContext-*.xml"})
 public class PageHelperTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(PageHelperTest.class);
 
