@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcz.taotao.search.mapper.SearchItemMapper">
+    <resultMap id="BaseResultMap" type="com.pcz.taotao.common.pojo.SearchItem">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="sell_point" jdbcType="VARCHAR" property="sellPoint"/>
+        <result column="price" jdbcType="BIGINT" property="price"/>
+        <result column="image" jdbcType="VARCHAR" property="image"/>
+        <result column="category_name" jdbcType="VARCHAR" property="category_name"/>
+        <result column="item_desc" jdbcType="VARCHAR" property="itemDesc"/>
+    </resultMap>
+
+    <select id="getItemList" resultMap="BaseResultMap">
+        SELECT a.id,
+               a.title,
+               a.sell_point,
+               a.price,
+               a.image,
+               b.name      category_name,
+               c.item_desc item_desc
+        FROM tb_item a
+                 LEFT JOIN tb_item_cat b ON a.cid = b.id
+                 LEFT JOIN tb_item_desc c ON a.id = c.item_id
+        WHERE a.status = 1
+    </select>
+</mapper>
