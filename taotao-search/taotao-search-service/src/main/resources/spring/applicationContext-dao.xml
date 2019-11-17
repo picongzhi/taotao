@@ -31,6 +31,6 @@
 
     <!-- Mapper映射文件的包扫描器 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.pcz.taotao.mapper"/>
+        <property name="basePackage" value="com.pcz.taotao.mapper,com.pcz.taotao.search.mapper"/>
     </bean>
 </beans>
