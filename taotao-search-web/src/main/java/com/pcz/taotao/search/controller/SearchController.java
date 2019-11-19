@@ -9,8 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.nio.charset.Charset;
-
 /**
  * @author picongzhi
  */
@@ -25,17 +23,13 @@ public class SearchController {
     @RequestMapping("/search")
     public String search(@RequestParam("q") String query,
                          @RequestParam(defaultValue = "1") Integer page,
-                         Model model) {
-        try {
-            query = new String(query.getBytes("iso8859-1"), "utf-8");
-            SearchResult searchResult = searchItemService.search(query, page, searchResultRows);
-            model.addAttribute("query", query);
-            model.addAttribute("page", page);
-            model.addAttribute("totalPages", searchResult.getTotalPages());
-            model.addAttribute("itemList", searchResult.getItemList());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                         Model model) throws Exception {
+        query = new String(query.getBytes("iso8859-1"), "utf-8");
+        SearchResult searchResult = searchItemService.search(query, page, searchResultRows);
+        model.addAttribute("query", query);
+        model.addAttribute("page", page);
+        model.addAttribute("totalPages", searchResult.getTotalPages());
+        model.addAttribute("itemList", searchResult.getItemList());
 
         return "search";
     }

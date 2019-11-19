@@ -23,6 +23,9 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
+    <!-- 配置全局异常处理器 -->
+    <bean class="com.pcz.taotao.search.exception.GlobalExceptionResolver"/>
+
     <!-- 引用dubbo服务 -->
     <dubbo:application name="taotao-search-web"/>
     <dubbo:registry protocol="zookeeper" address="127.0.0.1:2181"/>

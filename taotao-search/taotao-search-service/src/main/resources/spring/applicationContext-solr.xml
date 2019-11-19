@@ -13,4 +13,10 @@
     <bean id="httpSolrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer">
         <constructor-arg name="baseURL" value="http://localhost:8983/solr/collection1"/>
     </bean>
+
+    <!-- 集群版solr连接 -->
+    <!--<bean id="cloudSolrServer" class="org.apache.solr.client.solrj.impl.CloudSolrServer">-->
+    <!--<constructor-arg name="zkHost" value="localhost:2181,localhost:2182,localhost:2183"/>-->
+    <!--<property name="defaultCollection" value="collection1"/>-->
+    <!--</bean>-->
 </beans>
