@@ -1,10 +1,10 @@
 package com.pcz.taotao.activemq;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
-import org.apache.activemq.command.ActiveMQTextMessage;
 import org.junit.Test;
 
 import javax.jms.*;
+import java.io.IOException;
 
 public class ActiveMQTest {
     @Test
@@ -23,6 +23,37 @@ public class ActiveMQTest {
         messageProducer.send(textMessage);
 
         messageProducer.close();
+        session.close();
+        connection.close();
+    }
+
+    @Test
+    public void queueConsumerTest() throws JMSException {
+        ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+        Connection connection = connectionFactory.createConnection();
+        connection.start();
+
+        Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+        Queue queue = session.createQueue("test-queue");
+        MessageConsumer messageConsumer = session.createConsumer(queue);
+        messageConsumer.setMessageListener(message -> {
+            try {
+                if (message instanceof TextMessage) {
+                    TextMessage textMessage = (TextMessage) message;
+                    System.out.println(textMessage.getText());
+                }
+            } catch (JMSException e) {
+                e.printStackTrace();
+            }
+        });
+
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        messageConsumer.close();
         session.close();
         connection.close();
     }
