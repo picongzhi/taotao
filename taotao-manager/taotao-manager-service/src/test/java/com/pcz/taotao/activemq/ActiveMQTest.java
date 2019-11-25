@@ -57,4 +57,53 @@ public class ActiveMQTest {
         session.close();
         connection.close();
     }
+
+    @Test
+    public void topicProducerTest() throws JMSException {
+        ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+        Connection connection = connectionFactory.createConnection();
+        connection.start();
+
+        Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+        Topic topic = session.createTopic("test-topic");
+        MessageProducer messageProducer = session.createProducer(topic);
+
+        TextMessage textMessage = session.createTextMessage("hello activemq topic");
+        messageProducer.send(textMessage);
+
+        messageProducer.close();
+        session.close();
+        connection.close();
+    }
+
+    @Test
+    public void topicConsumerTest() throws JMSException {
+        ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+        Connection connection = connectionFactory.createConnection();
+        connection.start();
+
+        Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+        Topic topic = session.createTopic("test-topic");
+        MessageConsumer messageConsumer = session.createConsumer(topic);
+        messageConsumer.setMessageListener(message -> {
+            try {
+                if (message instanceof TextMessage) {
+                    TextMessage textMessage = (TextMessage) message;
+                    System.out.println(textMessage.getText());
+                }
+            } catch (JMSException e) {
+                e.printStackTrace();
+            }
+        });
+
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        messageConsumer.close();
+        session.close();
+        connection.close();
+    }
 }
