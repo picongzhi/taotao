@@ -34,4 +34,10 @@ public class SearchItemMapperTest {
         List<TbItem> tbItemList = tbItemMapper.selectByExample(new TbItemExample());
         System.out.println(tbItemList);
     }
+
+    @Test
+    public void test() {
+        SearchItem searchItem = searchItemMapper.getItemById(988634L);
+        System.out.println(searchItem);
+    }
 }

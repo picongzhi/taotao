@@ -11,9 +11,16 @@ import com.pcz.taotao.pojo.TbItem;
 import com.pcz.taotao.pojo.TbItemDesc;
 import com.pcz.taotao.pojo.TbItemExample;
 import com.pcz.taotao.service.ItemService;
+import org.apache.activemq.command.ActiveMQTopic;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
 
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
+import javax.jms.TextMessage;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +33,10 @@ public class ItemServiceImpl implements ItemService {
     private TbItemMapper tbItemMapper;
     @Autowired
     private TbItemDescMapper tbItemDescMapper;
+    @Autowired
+    private JmsTemplate jmsTemplate;
+    @Autowired
+    private ActiveMQTopic activeMQTopic;
 
     @Override
     public TbItem getItemById(long id) {
@@ -62,6 +73,8 @@ public class ItemServiceImpl implements ItemService {
         tbItemDesc.setCreated(new Date());
         tbItemDesc.setUpdated(new Date());
         tbItemDescMapper.insert(tbItemDesc);
+
+        jmsTemplate.send(activeMQTopic, session -> session.createTextMessage(Long.toString(tbItemId)));
 
         return TaotaoResult.ok();
     }
