@@ -5,9 +5,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>${item.title } - 淘淘</title>
-    <script>var jdpts = new Object();
-    jdpts._st = new Date().getTime();</script>
+    <title>${ item.title } - 淘淘</title>
+    <script>
+        var jdpts = new Object();
+        jdpts._st = new Date().getTime();
+    </script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" type="text/css" href="/css/taotao.css" media="all"/>
     <link rel="stylesheet" type="text/css" href="/css/pshow.css" media="all"/>
@@ -36,52 +38,54 @@
     </script>
 </head>
 <body version="140120">
-<script type="text/javascript">try {
-    (function (flag) {
-        if (!flag) {
-            return;
-        }
-        if (window.location.hash == '#m') {
-            var exp = new Date();
-            exp.setTime(exp.getTime() + 30 * 24 * 60 * 60 * 1000);
-            document.cookie = "pcm=1;expires=" + exp.toGMTString() + ";path=/;domain=jd.com";
-            return;
-        } else {
-            var cook = document.cookie.match(new RegExp("(^| )pcm=([^;]*)(;|$)"));
-            var flag = false;
-            if (cook && cook.length > 2 && unescape(cook[2]) == "1") {
-                flag = true;
-            }
-        }
-        var userAgent = navigator.userAgent;
-        if (userAgent) {
-            userAgent = userAgent.toUpperCase();
-            if (userAgent.indexOf("PAD") > -1) {
+<script type="text/javascript">
+    try {
+        (function (flag) {
+            if (!flag) {
                 return;
             }
-            var mobilePhoneList = ["IOS", "IPHONE", "ANDROID", "WINDOWS PHONE"];
-            for (var i = 0, len = mobilePhoneList.length; i < len; i++) {
-                if (userAgent.indexOf(mobilePhoneList[i]) > -1) {
-                    var url = "http://m.jd.com/product/" + pageConfig.product.skuid + ".html";
-                    if (flag) {
-                        pageConfig.product.showtouchurl = true;
-                    } else {
-                        window.location.href = url;
-                    }
-                    break;
+            if (window.location.hash == '#m') {
+                var exp = new Date();
+                exp.setTime(exp.getTime() + 30 * 24 * 60 * 60 * 1000);
+                document.cookie = "pcm=1;expires=" + exp.toGMTString() + ";path=/;domain=jd.com";
+                return;
+            } else {
+                var cook = document.cookie.match(new RegExp("(^| )pcm=([^;]*)(;|$)"));
+                var flag = false;
+                if (cook && cook.length > 2 && unescape(cook[2]) == "1") {
+                    flag = true;
                 }
             }
-        }
-    })((function () {
-        var json = {"6881": 3, "1195": 3, "10011": 3, "6980": 3, "12360": 3};
-        if (json[pageConfig.product.cat[0] + ""] == 1 || json[pageConfig.product.cat[1] + ""] == 2 || json[pageConfig.product.cat[2] + ""] == 3) {
-            return false;
-        } else {
-            return true;
-        }
-    })());
-} catch (e) {
-}</script>
+            var userAgent = navigator.userAgent;
+            if (userAgent) {
+                userAgent = userAgent.toUpperCase();
+                if (userAgent.indexOf("PAD") > -1) {
+                    return;
+                }
+                var mobilePhoneList = ["IOS", "IPHONE", "ANDROID", "WINDOWS PHONE"];
+                for (var i = 0, len = mobilePhoneList.length; i < len; i++) {
+                    if (userAgent.indexOf(mobilePhoneList[i]) > -1) {
+                        var url = "http://m.jd.com/product/" + pageConfig.product.skuid + ".html";
+                        if (flag) {
+                            pageConfig.product.showtouchurl = true;
+                        } else {
+                            window.location.href = url;
+                        }
+                        break;
+                    }
+                }
+            }
+        })((function () {
+            var json = {"6881": 3, "1195": 3, "10011": 3, "6980": 3, "12360": 3};
+            if (json[pageConfig.product.cat[0] + ""] == 1 || json[pageConfig.product.cat[1] + ""] == 2 || json[pageConfig.product.cat[2] + ""] == 3) {
+                return false;
+            } else {
+                return true;
+            }
+        })());
+    } catch (e) {
+    }
+</script>
 <!-- header start -->
 <jsp:include page="commons/header.jsp"/>
 <!-- header end -->
