@@ -5,6 +5,8 @@ import com.github.pagehelper.PageInfo;
 import com.pcz.taotao.common.pojo.EasyUIDataGridResult;
 import com.pcz.taotao.common.pojo.TaotaoResult;
 import com.pcz.taotao.common.utils.IDUtils;
+import com.pcz.taotao.common.utils.JsonUtils;
+import com.pcz.taotao.jedis.JedisClient;
 import com.pcz.taotao.mapper.TbItemDescMapper;
 import com.pcz.taotao.mapper.TbItemMapper;
 import com.pcz.taotao.pojo.TbItem;
@@ -12,7 +14,9 @@ import com.pcz.taotao.pojo.TbItemDesc;
 import com.pcz.taotao.pojo.TbItemExample;
 import com.pcz.taotao.service.ItemService;
 import org.apache.activemq.command.ActiveMQTopic;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
@@ -34,9 +38,36 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     private ActiveMQTopic activeMQTopic;
 
+    @Value("${ITEM_INFO}")
+    private String ITEM_INFO;
+    @Value("${ITEM_EXPIRE}")
+    private Integer ITEM_EXPIRE;
+
+    @Autowired
+    private JedisClient jedisClient;
+
     @Override
     public TbItem getItemById(long id) {
-        return tbItemMapper.selectByPrimaryKey(id);
+        String key = ITEM_INFO + ":" + id + ":BASE";
+
+        try {
+            String str = jedisClient.get(key);
+            if (StringUtils.isNotBlank(str)) {
+                return JsonUtils.jsonToPojo(str, TbItem.class);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        TbItem tbItem = tbItemMapper.selectByPrimaryKey(id);
+        try {
+            jedisClient.set(key, JsonUtils.objectToJson(tbItem));
+            jedisClient.expire(key, ITEM_EXPIRE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return tbItem;
     }
 
     @Override
@@ -77,6 +108,25 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public TbItemDesc getItemDescById(long itemid) {
-        return tbItemDescMapper.selectByPrimaryKey(itemid);
+        String key = ITEM_INFO + ":" + itemid + ":DESC";
+
+        try {
+            String str = jedisClient.get(key);
+            if (StringUtils.isNotBlank(str)) {
+                return JsonUtils.jsonToPojo(str, TbItemDesc.class);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        TbItemDesc tbItemDesc = tbItemDescMapper.selectByPrimaryKey(itemid);
+        try {
+            jedisClient.set(key, JsonUtils.objectToJson(tbItemDesc));
+            jedisClient.expire(key, ITEM_EXPIRE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return tbItemDesc;
     }
 }
