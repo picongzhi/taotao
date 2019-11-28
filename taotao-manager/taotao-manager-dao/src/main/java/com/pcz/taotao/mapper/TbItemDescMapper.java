@@ -2,7 +2,9 @@ package com.pcz.taotao.mapper;
 
 import com.pcz.taotao.pojo.TbItemDesc;
 import com.pcz.taotao.pojo.TbItemDescExample;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface TbItemDescMapper {
@@ -17,6 +19,8 @@ public interface TbItemDescMapper {
     List<TbItemDesc> selectByExampleWithBLOBs(TbItemDescExample example);
 
     List<TbItemDesc> selectByExample(TbItemDescExample example);
+
+    TbItemDesc selectByPrimaryKey(@Param("itemId") Long itemId);
 
     int updateByExampleSelective(@Param("record") TbItemDesc record, @Param("example") TbItemDescExample example);
 
