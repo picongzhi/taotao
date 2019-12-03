@@ -1,17 +1,25 @@
 package com.pcz.taotao.sso.controller;
 
 import com.pcz.taotao.common.pojo.TaotaoResult;
+import com.pcz.taotao.common.utils.CookieUtils;
 import com.pcz.taotao.pojo.TbUser;
 import com.pcz.taotao.sso.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author picongzhi
  */
 @Controller
 public class UserController {
+    @Value("${TT_TOKEN}")
+    private String TT_TOKEN;
+
     @Autowired
     private UserService userService;
 
@@ -26,5 +34,14 @@ public class UserController {
     @ResponseBody
     public TaotaoResult register(TbUser tbUser) {
         return userService.register(tbUser);
+    }
+
+    @RequestMapping(value = "/user/login", method = RequestMethod.POST)
+    @ResponseBody
+    public TaotaoResult login(String username, String password,
+                              HttpServletRequest request, HttpServletResponse response) {
+        TaotaoResult taotaoResult = userService.login(username, password);
+        CookieUtils.setCookie(request, response, TT_TOKEN, taotaoResult.getData().toString());
+        return taotaoResult;
     }
 }

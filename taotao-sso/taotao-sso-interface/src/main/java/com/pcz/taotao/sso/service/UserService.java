@@ -2,6 +2,7 @@ package com.pcz.taotao.sso.service;
 
 import com.pcz.taotao.common.pojo.TaotaoResult;
 import com.pcz.taotao.pojo.TbUser;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author picongzhi
@@ -23,4 +24,13 @@ public interface UserService {
      * @return TaotaoResult
      */
     TaotaoResult register(TbUser tbUser);
+
+    /**
+     * 用户登录
+     *
+     * @param username 用户名
+     * @param password 密码
+     * @return TaotaoResult
+     */
+    TaotaoResult login(String username, String password);
 }
