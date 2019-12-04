@@ -42,7 +42,10 @@ public class UserController {
     public TaotaoResult login(String username, String password,
                               HttpServletRequest request, HttpServletResponse response) {
         TaotaoResult taotaoResult = userService.login(username, password);
-        CookieUtils.setCookie(request, response, TT_TOKEN, taotaoResult.getData().toString());
+        if (taotaoResult.getData() != null) {
+            CookieUtils.setCookie(request, response, TT_TOKEN, taotaoResult.getData().toString());
+        }
+
         return taotaoResult;
     }
 
