@@ -4,6 +4,7 @@ import com.pcz.taotao.common.pojo.TaotaoResult;
 import com.pcz.taotao.common.utils.CookieUtils;
 import com.pcz.taotao.pojo.TbUser;
 import com.pcz.taotao.sso.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -43,5 +44,17 @@ public class UserController {
         TaotaoResult taotaoResult = userService.login(username, password);
         CookieUtils.setCookie(request, response, TT_TOKEN, taotaoResult.getData().toString());
         return taotaoResult;
+    }
+
+    @RequestMapping(value = "/token/{token}", method = RequestMethod.GET)
+    @ResponseBody
+    public TaotaoResult getUserByToken(@PathVariable String token) {
+        return userService.getUserByToken(token);
+    }
+
+    @RequestMapping(value = "/user/logout/{token}", method = RequestMethod.GET)
+    @ResponseBody
+    public TaotaoResult logout(@PathVariable String token) {
+        return userService.logout(token);
     }
 }

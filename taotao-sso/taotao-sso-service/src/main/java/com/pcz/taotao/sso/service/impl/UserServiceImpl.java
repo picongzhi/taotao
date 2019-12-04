@@ -114,4 +114,25 @@ public class UserServiceImpl implements UserService {
 
         return TaotaoResult.ok(token);
     }
+
+    @Override
+    public TaotaoResult getUserByToken(String token) {
+        String key = USER_SESSION + ":" + token;
+        String userStr = jedisClient.get(key);
+        if (StringUtils.isBlank(userStr)) {
+            return TaotaoResult.build(400, "用户登录已经过期");
+        }
+
+        jedisClient.expire(key, SESSION_EXPIRE);
+        TbUser tbUser = JsonUtils.jsonToPojo(userStr, TbUser.class);
+
+        return TaotaoResult.ok(tbUser);
+    }
+
+    @Override
+    public TaotaoResult logout(String token) {
+        jedisClient.del(USER_SESSION + ":" + token);
+
+        return TaotaoResult.ok();
+    }
 }

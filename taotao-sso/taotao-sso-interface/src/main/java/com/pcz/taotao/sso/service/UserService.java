@@ -33,4 +33,20 @@ public interface UserService {
      * @return TaotaoResult
      */
     TaotaoResult login(String username, String password);
+
+    /**
+     * 根据token获取用户信息
+     *
+     * @param token token
+     * @return TaotaoResult
+     */
+    TaotaoResult getUserByToken(String token);
+
+    /**
+     * 登出
+     *
+     * @param token token
+     * @return TaotaoResult
+     */
+    TaotaoResult logout(String token);
 }
