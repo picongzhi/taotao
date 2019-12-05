@@ -2,11 +2,13 @@ package com.pcz.taotao.sso.controller;
 
 import com.pcz.taotao.common.pojo.TaotaoResult;
 import com.pcz.taotao.common.utils.CookieUtils;
+import com.pcz.taotao.common.utils.JsonUtils;
 import com.pcz.taotao.pojo.TbUser;
 import com.pcz.taotao.sso.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,10 +51,18 @@ public class UserController {
         return taotaoResult;
     }
 
-    @RequestMapping(value = "/token/{token}", method = RequestMethod.GET)
+    @RequestMapping(
+            value = "/user/token/{token}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public TaotaoResult getUserByToken(@PathVariable String token) {
-        return userService.getUserByToken(token);
+    public String getUserByToken(@PathVariable String token, @RequestParam(value = "callback", required = false) String callback) {
+        TaotaoResult taotaoResult = userService.getUserByToken(token);
+        if (StringUtils.isNotBlank(callback)) {
+            return callback + "(" + JsonUtils.objectToJson(taotaoResult) + ")";
+        }
+
+        return JsonUtils.objectToJson(taotaoResult);
     }
 
     @RequestMapping(value = "/user/logout/{token}", method = RequestMethod.GET)
