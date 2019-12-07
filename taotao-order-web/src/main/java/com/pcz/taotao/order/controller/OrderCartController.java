@@ -3,6 +3,7 @@ package com.pcz.taotao.order.controller;
 import com.pcz.taotao.common.utils.CookieUtils;
 import com.pcz.taotao.common.utils.JsonUtils;
 import com.pcz.taotao.pojo.TbItem;
+import com.pcz.taotao.pojo.TbUser;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,8 @@ public class OrderCartController {
         if (StringUtils.isBlank(value)) {
             return new ArrayList<>();
         }
+
+        TbUser tbUser = (TbUser) request.getAttribute("user");
 
         return JsonUtils.jsonToList(value, TbItem.class);
     }

@@ -2,6 +2,8 @@ package com.pcz.taotao.order.interceptor;
 
 import com.pcz.taotao.common.pojo.TaotaoResult;
 import com.pcz.taotao.common.utils.CookieUtils;
+import com.pcz.taotao.common.utils.JsonUtils;
+import com.pcz.taotao.pojo.TbUser;
 import com.pcz.taotao.sso.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,8 @@ public class LoginInterceptor implements HandlerInterceptor {
             response.sendRedirect(SSO_URL + "/login?url=" + request.getRequestURL());
             return false;
         }
+
+        request.setAttribute("user", taotaoResult.getData());
 
         return true;
     }
