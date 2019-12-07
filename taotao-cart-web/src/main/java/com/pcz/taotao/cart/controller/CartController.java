@@ -99,4 +99,22 @@ public class CartController {
 
         return TaotaoResult.ok();
     }
+
+    @RequestMapping(value = "/cart/delete/{itemId}", method = RequestMethod.GET)
+    public String deleteCartItem(@PathVariable("itemId") Long itemId,
+                                 HttpServletRequest request,
+                                 HttpServletResponse response) {
+        List<TbItem> cartList = getCartItemList(request);
+        for (TbItem tbItem : cartList) {
+            if (tbItem.getId().equals(itemId)) {
+                cartList.remove(tbItem);
+                break;
+            }
+        }
+
+        CookieUtils.setCookie(request, response, TT_CART_KEY, JsonUtils.objectToJson(cartList),
+                TT_CART_EXPIRE, true);
+
+        return "redirect:/cart/cart.html";
+    }
 }
