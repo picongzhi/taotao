@@ -1,5 +1,6 @@
 package com.pcz.taotao.cart.controller;
 
+import com.pcz.taotao.common.pojo.TaotaoResult;
 import com.pcz.taotao.common.utils.CookieUtils;
 import com.pcz.taotao.common.utils.JsonUtils;
 import com.pcz.taotao.pojo.TbItem;
@@ -7,11 +8,9 @@ import com.pcz.taotao.service.ItemService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -70,5 +69,34 @@ public class CartController {
         }
 
         return JsonUtils.jsonToList(value, TbItem.class);
+    }
+
+    @RequestMapping(value = "/cart/cart", method = RequestMethod.GET)
+    public String showCartList(HttpServletRequest request) {
+        List<TbItem> cartList = getCartItemList(request);
+        request.setAttribute("cartList", cartList);
+
+        return "cart";
+    }
+
+    @RequestMapping(value = "/cart/update/num/{itemId}/{num}",
+            method = RequestMethod.POST)
+    @ResponseBody
+    public TaotaoResult updateItemNum(@PathVariable("itemId") Long itemId,
+                                      @PathVariable("num") Integer num,
+                                      HttpServletRequest request,
+                                      HttpServletResponse response) {
+        List<TbItem> cartList = getCartItemList(request);
+        for (TbItem tbItem : cartList) {
+            if (tbItem.getId().equals(itemId)) {
+                tbItem.setNum(num);
+                break;
+            }
+        }
+
+        CookieUtils.setCookie(request, response, TT_CART_KEY, JsonUtils.objectToJson(cartList),
+                TT_CART_EXPIRE, true);
+
+        return TaotaoResult.ok();
     }
 }
