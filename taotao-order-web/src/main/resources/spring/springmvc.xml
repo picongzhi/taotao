@@ -23,8 +23,15 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/order/**"/>
+            <bean class="com.pcz.taotao.order.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
     <!-- 引用dubbo服务 -->
     <dubbo:application name="taotao-order-web"/>
     <dubbo:registry protocol="zookeeper" address="127.0.0.1:2181"/>
-    <!--<dubbo:reference id="contentService" interface="com.pcz.taotao.service.ItemService"/>-->
+    <dubbo:reference id="userService" interface="com.pcz.taotao.sso.service.UserService"/>
 </beans>
